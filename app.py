@@ -109,7 +109,7 @@ with st.sidebar:
         "Tavily API Key",
         value=os.getenv("TAVILY_API_KEY", ""),
         type="password",
-        help="Required for flight search",
+        help="Required for flight search — tavily.com",
     )
     gmail_user = st.text_input(
         "Gmail Address",
