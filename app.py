@@ -1,7 +1,9 @@
 import os
 import sys
-import threading
-import queue
+
+# Ensure project root is on sys.path so agents/tools/graph modules are importable
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+
 import streamlit as st
 from datetime import date, timedelta
 from dotenv import load_dotenv
