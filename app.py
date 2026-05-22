@@ -10,21 +10,21 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-# Load Streamlit Cloud secrets into env vars if running on Streamlit Cloud
-try:
-    for key in ["ANTHROPIC_API_KEY", "TAVILY_API_KEY", "GMAIL_USER", "GMAIL_APP_PASSWORD"]:
-        if key in st.secrets and not os.getenv(key):
-            os.environ[key] = st.secrets[key]
-except Exception:
-    pass  # secrets not available locally — that's fine
-
-# ── Page config ──────────────────────────────────────────────────────────────
+# ── Page config — MUST be the first Streamlit call ───────────────────────────
 st.set_page_config(
     page_title="FlightAgents AI",
     page_icon="✈",
     layout="wide",
     initial_sidebar_state="expanded",
 )
+
+# Load Streamlit Cloud secrets into env vars (after set_page_config)
+try:
+    for key in ["ANTHROPIC_API_KEY", "TAVILY_API_KEY", "GMAIL_USER", "GMAIL_APP_PASSWORD"]:
+        if key in st.secrets and not os.getenv(key):
+            os.environ[key] = st.secrets[key]
+except Exception:
+    pass  # secrets not available locally — that's fine
 
 # ── CSS ───────────────────────────────────────────────────────────────────────
 st.markdown(
