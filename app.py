@@ -46,19 +46,6 @@ init_session()
 
 # ── Sidebar ───────────────────────────────────────────────────────────────────
 with st.sidebar:
-    st.title("🔑 API Keys")
-
-    anthropic_key = st.text_input("Anthropic API Key", value=os.getenv("ANTHROPIC_API_KEY", ""), type="password")
-    tavily_key    = st.text_input("Tavily API Key",    value=os.getenv("TAVILY_API_KEY", ""),    type="password")
-    gmail_user    = st.text_input("Gmail Address",     value=os.getenv("GMAIL_USER", ""))
-    gmail_pass    = st.text_input("Gmail App Password",value=os.getenv("GMAIL_APP_PASSWORD", ""),type="password")
-
-    if anthropic_key: os.environ["ANTHROPIC_API_KEY"]   = anthropic_key
-    if tavily_key:    os.environ["TAVILY_API_KEY"]       = tavily_key
-    if gmail_user:    os.environ["GMAIL_USER"]           = gmail_user
-    if gmail_pass:    os.environ["GMAIL_APP_PASSWORD"]   = gmail_pass
-
-    st.divider()
     st.markdown("**How it works**")
     st.markdown("1. 🔍 Agent 1 searches for flights\n2. 🎫 Agent 2 books your ticket\n3. ✉ Agent 3 confirms & emails you")
     st.divider()
