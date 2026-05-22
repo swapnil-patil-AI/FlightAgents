@@ -6,28 +6,39 @@ from agents.booking_agent import booking_node
 from agents.confirmation_agent import confirmation_node
 
 
-def build_flight_booking_graph() -> StateGraph:
-    """Build and compile the 3-agent flight booking LangGraph workflow."""
+def get_search_graph():
+    """Graph that runs only Agent 1 — flight search."""
     builder = StateGraph(FlightBookingState)
-
     builder.add_node("flight_search", flight_search_node)
-    builder.add_node("booking", booking_node)
-    builder.add_node("confirmation", confirmation_node)
-
     builder.add_edge(START, "flight_search")
-    builder.add_edge("flight_search", "booking")
-    builder.add_edge("booking", "confirmation")
-    builder.add_edge("confirmation", END)
-
+    builder.add_edge("flight_search", END)
     return builder.compile()
 
 
-# Singleton — compiled once per process
-_graph = None
+def get_booking_graph():
+    """Graph that runs Agent 2 (booking) then Agent 3 (confirmation)."""
+    builder = StateGraph(FlightBookingState)
+    builder.add_node("booking", booking_node)
+    builder.add_node("confirmation", confirmation_node)
+    builder.add_edge(START, "booking")
+    builder.add_edge("booking", "confirmation")
+    builder.add_edge("confirmation", END)
+    return builder.compile()
 
 
-def get_graph():
-    global _graph
-    if _graph is None:
-        _graph = build_flight_booking_graph()
-    return _graph
+_search_graph = None
+_booking_graph = None
+
+
+def get_search_graph_cached():
+    global _search_graph
+    if _search_graph is None:
+        _search_graph = get_search_graph()
+    return _search_graph
+
+
+def get_booking_graph_cached():
+    global _booking_graph
+    if _booking_graph is None:
+        _booking_graph = get_booking_graph()
+    return _booking_graph
